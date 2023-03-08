@@ -9,6 +9,7 @@
         <module name="PEP-Project" />
         <module name="jojo1234526-pep-project" />
         <module name="pep-project-final" />
+        <module name="Challenges" />
       </profile>
     </annotationProcessing>
   </component>
