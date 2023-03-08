@@ -23,7 +23,7 @@ import Service.MessageService;
 public class SocialMediaController {
 
     private AccountService accountService = new AccountService();
-    private MessageService messageService = new MessageService();
+    private NumberService messageService = new NumberService();
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
@@ -31,6 +31,7 @@ public class SocialMediaController {
      */
     public Javalin startAPI() {
         Javalin app = Javalin.create();
+        app.get("hello", ctx -> {ctx.json("hello");});
         app.post("/register", this:: newUserHandler);
         app.post("/login", this:: loginHandler);
         app.post("/messages", this ::postMessageHandler);
