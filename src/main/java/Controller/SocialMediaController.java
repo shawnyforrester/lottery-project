@@ -4,6 +4,7 @@ package Controller;
 
 import java.util.List;
 
+import Service.NumberService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
@@ -23,7 +24,9 @@ import Service.MessageService;
 public class SocialMediaController {
 
     private AccountService accountService = new AccountService();
-    private NumberService messageService = new NumberService();
+    private MessageService messageService = new MessageService();
+
+    private NumberService numberService = new NumberService();
     /**
      * In order for the test cases to work, you will need to write the endpoints in the startAPI() method, as the test
      * suite must receive a Javalin object from this method.
