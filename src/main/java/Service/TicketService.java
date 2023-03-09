@@ -3,7 +3,7 @@ package Service;
 
 import java.util.List;
 
-import DAO.NumberDAO;
+import DAO.TicketDAO;
 import Model.Tickets;
 
 public class TicketService {

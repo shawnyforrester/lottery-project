@@ -10,7 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import Util.ConnectionUtil;
 
-public class NumberDAO {
+public class TicketDAO {
 
     public Number insertNumber(Tickets number) {
         Connection connection = ConnectionUtil.getConnection();
