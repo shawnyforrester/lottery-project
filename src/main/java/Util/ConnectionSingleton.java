@@ -14,7 +14,7 @@ import java.sql.SQLException;
  *
  * DO NOT CHANGE ANYTHING IN THIS CLASS
  */
-public class ConnectionUtil {
+public class ConnectionSingleton {
 
     /**
      * url will represent our connection string. Since this is an in-memory db, we will represent a file location to store the data
@@ -60,7 +60,7 @@ public class ConnectionUtil {
         }else {
 //            otherwise, recreate the tables without setting up a new connection
             try {
-                FileReader sqlReader = new FileReader("src/main/resources/SocialMedia.sql");
+                FileReader sqlReader = new FileReader("src/main/resources/Tables.sql");
                 RunScript.execute(connection, sqlReader);
             } catch (SQLException | FileNotFoundException e) {
                 e.printStackTrace();

@@ -1,7 +1,6 @@
 
 
 import Controller.SocialMediaController;
-import Model.Message;
 import Util.ConnectionUtil;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

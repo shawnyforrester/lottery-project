@@ -1,7 +1,6 @@
 package DAO;
 
-import Model.Message;
-import Model.Numbers;
+import Model.Tickets;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,7 +12,7 @@ import Util.ConnectionUtil;
 
 public class NumberDAO {
 
-    public Number insertNumber(Numbers number) {
+    public Number insertNumber(Tickets number) {
         Connection connection = ConnectionUtil.getConnection();
         try {
             String sql = "Insert INTO message(posted_by, message_text, time_posted_epoch) Values (?, ?, ?);";
