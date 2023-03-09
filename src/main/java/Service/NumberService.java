@@ -7,6 +7,7 @@ import Model.Message;
 import java.util.List;
 
 import DAO.NumberDAO;
+import Model.Number;
 
 public class NumberService {
     public NumberDAO numberDAO;
@@ -22,24 +23,24 @@ public class NumberService {
     }
 
 
-    public List<Message> getAllMessage(){
+    public List<Number> getAllMessage(){
         return numberDAO.getAllMessage();
     }
 
 
-    public Message getMessageById(int message_id){
+    public Number getMessageById(int message_id){
         return numberDAO.getMessageById(message_id);
     }
 
 
 
-    public Message addMessage(Message message) {
-        if( message.message_text!= "" && message.message_text.length()<256){
-            return numberDAO.insertMessage(message);
+    public Number addNumbers(Number number) {
+        if( number.message_text!= "" && number.message_text.length()<256){
+            return numberDAO.insertNumber(number);
         }
         return null;
     }
-    public Message deleteMessageById(int message_id) {
+    public Number deleteMessageById(int message_id) {
         Number number = numberDAO.getMessageById(message_id);
         numberDAO.deleteMessageById(message_id);
         if (number==null){
@@ -49,14 +50,14 @@ public class NumberService {
     }
 
 
-    public List<Message> getAllMessagesByAccountId(int posted_by){
-        return messageDAO.getAllMessagesByAccountId(posted_by);
+    public List<Number> getAllMessagesByAccountId(int posted_by){
+        return numberDAO.getAllMessagesByAccountId(posted_by);
     }
 
-    public Message updateMessageById( Message message, int message_id){
-        if(getMessageById(message_id) != null && message.message_text!="" && message.message_text.length()<256){
-            messageDAO.updateMessageById(message, message_id);
-            return messageDAO.getMessageById(message_id);
+    public Number updateMessageById( Number number, int message_id){
+        if(getMessageById(message_id) != null && number.message_text!="" && number.message_text.length()<256){
+            numberDAO.updateMessageById(number, message_id);
+            return numberDAO.getMessageById(message_id);
         }
         return null;
     }
