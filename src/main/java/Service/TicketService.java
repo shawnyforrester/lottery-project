@@ -4,39 +4,39 @@ package Service;
 import java.util.List;
 
 import DAO.TicketDAO;
-import Model.Tickets;
+import Model.Ticket;
+
 
 public class TicketService {
     public TicketDAO ticketDAO;
 
 
-
-    public TicketService () {
+    public TicketService() {
         ticketDAO = new TicketDAO();
     }
 
-    public TicketService (TicketDAO ticketDAO){
+    public TicketService(TicketDAO ticketDAO) {
         this.ticketDAO = ticketDAO;
     }
 
+    public Ticket retrieveTicketbyId(int account_id) {
 
-    public List<Tickets> getAllTickets(int account_id){
-        return ticketDAO.getAllTickets(account_id);
-    }
+        TicketDAO ticket = new TicketDAO();
+        return ticket.retrieveTicket(account_id);
 
-
-    public Message getTicketById(int ticket_id){
-        return ticketDAO.getMessageById(ticket_id);
     }
 
 
     public Ticket deleteTicketById(int ticket_id) {
-        Ticket ticket = ticketDAO.getTicketById(ticket_id);
-        ticketDAO.deleteTicketById(ticket_id);
-        if (ticket ==null){
-            return null;
-        }
-        return ticket;
+        TicketDAO ticket = new TicketDAO();
+        Ticket ticketReturned = ticket.retrieveTicket(ticket_id);
+
+        if (ticketReturned != null) {
+
+            ticket.deleteTicketbyId(ticket_id);
+            return ticketReturned;
+        } return null;
+
     }
 
 

@@ -1,14 +1,14 @@
 package DAO;
 
 import Model.Account;
-import Util.ConnectionUtil;
+import Util.ConnectionSingleton;
 import java.sql.*;
 
 
 public class AccountDAO {
 
         public Account insertAccount(Account account) {
-            Connection connection = ConnectionUtil.getConnection();
+            Connection connection = ConnectionSingleton.getConnection();
             try {
                 String sql = "INSERT INTO account(username, password) values ( ?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -31,7 +31,7 @@ public class AccountDAO {
 
 
     public Account processUsersLogin(Account account) {
-        Connection connection = ConnectionUtil.getConnection();
+        Connection connection = ConnectionSingleton.getConnection();
         try {
             //Write SQL logic here.
             String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
@@ -58,17 +58,17 @@ public class AccountDAO {
   
 
 
-    public Account getAccountbyUsername(String username){
-        Connection connection = ConnectionUtil.getConnection();
+    public Account getAccountbyId (int account_id){
+        Connection connection = ConnectionSingleton.getConnection();
         try {
-            //Write SQL logic here
-            String sql = "SELECT account_id, username, password FROM account WHERE username =(?)";
+
+            String sql = "SELECT account_id, username, password FROM account WHERE account_id =(?)";
             
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, username);
+            preparedStatement.setInt(1, account_id);
 
 
-            //write preparedStatement's setString and setInt methods here.
+
 
             ResultSet rs = preparedStatement.executeQuery();
             while(rs.next()){
@@ -81,5 +81,22 @@ public class AccountDAO {
         }
         return null;
     }
+
+    public void deleteAccount(int account_id){
+            Connection connection = ConnectionSingleton.getConnection();
+        try {
+            String sql = "DELETE FROM UserAccounts WHERE account_id=?;";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, account_id );
+            preparedStatement.executeUpdate();
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }
+
+    }
+
+
 
 }

@@ -5,8 +5,8 @@ CREATE TABLE UserAccounts (
     username varchar(255) UNIQUE,
     password varchar(255) UNIQUE
 );
-create table number (
+create table ticket (
     ticket_id int primary key auto_increment,
-    powerball varchar(255),
+    "power ball" varchar(255),
     foreign key (ticket_id) references  UserAccount(account_id)
 );

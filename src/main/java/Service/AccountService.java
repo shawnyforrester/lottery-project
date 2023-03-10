@@ -18,18 +18,32 @@ public class AccountService {
             if (account.username == "" ) {
                  return null;
             }
-            if (account.getPassword().length() < 4){
+            else if (account.getPassword().length() < 4){
                 return null;
             }
             return accountDAO.insertAccount(account);
         }
     
 
-    public Account processUserLogin(Account account){
+    public Account NewUserLogin(Account account){
         if (account == null) {
             return null;
         }
         return accountDAO.processUsersLogin(account);
+
+    }
+
+    public Account deleteAccountById (int account_id){
+        AccountDAO ac = new AccountDAO();
+        Account useraccount = ac.getAccountbyId(account_id);
+
+        if (useraccount == null){
+            return null;
+        } else{
+            ac.deleteAccount(account_id);
+            return useraccount;
+        }
+
 
     }
 

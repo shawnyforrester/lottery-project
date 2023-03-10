@@ -1,12 +1,9 @@
-
 package Controller;
 
-
-import java.util.List;
-
 import Model.Account;
+import Model.Ticket;
 import Service.AccountService;
-import Service.NumberService;
+import Service.TicketService;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.javalin.Javalin;
@@ -20,7 +17,7 @@ import io.javalin.http.Context;
  */
 public class PowerBallController {
 
-    NumberService numbers = new NumberService();
+    private TicketService ticket = new TicketService();
     private AccountService account = new AccountService();
 
 
@@ -34,10 +31,9 @@ public class PowerBallController {
         Javalin app = Javalin.create();
         app.post("/register", this::newUserHandler); //this endpoint handles new user registration
         app.post("/login", this::loginHandler);//handles login
-        app.get("/accounts/{account_id}/ticket", this::getTicketbyAccountId);//retrieves ticket by accountid
-        app.get("/account/{account_id}/all-tickets", this::getAllTickets);//retrieves all tickets on an account
-        app.delete("/account/{account_id}/delete-account", this:::deleteUserAccount);//deletes a user's account
-        app.delete("/account/ticketid", this:::deleteTicketUsingId ); //deletes a ticket using the ticketid
+        app.get("/accounts/{account_id}/ ticket", this::getTicketByAccountId);
+        app.delete("/accounts/{account_id}/delete-account", this:: deleteUserAccount);
+        app.delete("/account/ticket-id", this:: deleteTicketUsingId ); 
         return app;
     }
     
@@ -48,7 +44,8 @@ public class PowerBallController {
     private void newUserHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        Account createdAccount = accountService.AddAccount(account);
+        AccountService ac = new AccountService();
+        Account createdAccount = ac.AddAccount(account);
         if (createdAccount == null) {
             ctx.status(400);
         } else {
@@ -61,7 +58,8 @@ public class PowerBallController {
     private void loginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        Account foundAccount = accountService.processUserLogin(account);
+        AccountService ac = new AccountService();
+        Account foundAccount = ac.NewUserLogin(account);
         if (foundAccount != null) {
             ctx.json(om.writeValueAsString(foundAccount));
             ctx.status(200);
@@ -70,34 +68,24 @@ public class PowerBallController {
         }
     }
 
-    /*Please modify this method to retrieve a specific ticket from a single user's account
-    e.g. a previous PowerBall ticket or a previous MegaMillions ticket. Ticket retrieval should done with
+    /*This method to retrieve a specific ticket from a single user's account
+    e.g. a previous PowerBall ticket. Ticket retrieval should done with
     with path parameter specified */
 
     public void getTicketByAccountId(Context ctx) throws JsonProcessingException {
-        List<Message> messages = messageService.getAllMessage();
-        ctx.json(messages);
+        int account_id = Integer.parseInt(ctx.pathParam("account_id"));
+        TicketService ts = new TicketService();
+        Ticket userTicket = ts.retrieveTicketbyId(account_id);
+        ctx.json(userTicket);
     }
 
-    /*Please modify this endpoint to get all tickets (as an ArrayList)for a single user using the
-    account_id given as a parameter.
-    * */
-
-    public void getAllTickets(Context ctx) throws JsonProcessingException {
-        int account_id_id = Integer.parseInt(ctx.pathParam("account_id"));
-        Message updatedMessage = messageService.getMessageById(message_id);
-        if (updatedMessage != null) {
-            ctx.json(updatedMessage);
-        } else {
-            ctx.status(200);
-        }
-    }
 
     /*Please modify this endpoint to delete a specific user's account
     * The deleted account should be returned in JSON format*/
     private void deleteUserAccount(Context ctx) throws JsonProcessingException {
-        int account_id_id = Integer.parseInt(ctx.pathParam("account_id"));
-        Account accountForDeletion = AccountService.deleteAccountById(account_id);
+        int account_id = Integer.parseInt(ctx.pathParam("account_id"));
+        AccountService as = new AccountService();
+        Account accountForDeletion = as.deleteAccountById(account_id);
         if (accountForDeletion != null) {
             ctx.json(accountForDeletion);
         } else {
@@ -109,7 +97,8 @@ public class PowerBallController {
     //modify method to delete a ticket from the database using the ticket_id;
     private void deleteTicketUsingId(Context ctx) throws JsonProcessingException {
         int ticket_id = Integer.parseInt(ctx.pathParam("ticket_id"));
-        Ticket TicketForDeletion = TicketService.deleteAccountById(ticket_id_id);
+        TicketService ts = new TicketService();
+        Ticket TicketForDeletion = ts.retrieveTicketbyId(ticket_id);
         if (TicketForDeletion != null) {
             ctx.json(TicketForDeletion);
         } else {
