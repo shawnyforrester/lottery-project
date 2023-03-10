@@ -31,9 +31,9 @@ public class PowerBallController {
         Javalin app = Javalin.create();
         app.post("/register", this::newUserHandler); //this endpoint handles new user registration
         app.post("/login", this::loginHandler);//handles login
-        app.get("/accounts/{account_id}/ ticket", this::getTicketByAccountId);
+        app.get("/accounts/{account_id}/ ticket", this::getnewTicketByAccountId);
         app.delete("/accounts/{account_id}/delete-account", this:: deleteUserAccount);
-        app.delete("/account/ticket-id", this:: deleteTicketUsingId ); 
+        app.delete("/account/ticket-id", this:: deleteTicketUsingId );
         return app;
     }
     
@@ -72,7 +72,7 @@ public class PowerBallController {
     e.g. a previous PowerBall ticket. Ticket retrieval should done with
     with path parameter specified */
 
-    public void getTicketByAccountId(Context ctx) throws JsonProcessingException {
+    public void getnewTicketByAccountId(Context ctx) throws JsonProcessingException {
         int account_id = Integer.parseInt(ctx.pathParam("account_id"));
         TicketService ts = new TicketService();
         Ticket userTicket = ts.retrieveTicketbyId(account_id);

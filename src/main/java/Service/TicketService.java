@@ -22,6 +22,7 @@ public class TicketService {
     public Ticket retrieveTicketbyId(int account_id) {
 
         TicketDAO ticket = new TicketDAO();
+        ticket.getNewTicket(account_id);
         return ticket.retrieveTicket(account_id);
 
     }
