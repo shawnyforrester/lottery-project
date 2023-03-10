@@ -34,7 +34,7 @@ public class TicketService {
 
         if (ticketReturned != null) {
 
-            ticket.deleteTicketbyId(ticket_id);
+            ticket.deleteTicketFromSQLTable(ticket_id);
             return ticketReturned;
         } return null;
 

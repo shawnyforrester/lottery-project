@@ -38,7 +38,7 @@ public class PowerBallController {
         app.post("/login", this::loginHandler);//handles login
         app.get("/accounts/{account_id}/ticket", this::getnewTicketByAccountId);
         app.delete("/accounts/{account_id}/delete-account", this:: deleteUserAccount);
-        app.delete("/account/{ticket-id}", this:: deleteTicketUsingId );
+        app.delete("/account/{ticket_id}", this:: deleteTicketUsingId );
         return app;
     }
     

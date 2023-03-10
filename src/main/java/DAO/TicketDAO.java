@@ -51,7 +51,7 @@ public class TicketDAO {
         return null;
     }
 
-    public void deleteTicketbyId(int ticket_id) {
+    public void deleteTicketFromSQLTable(int ticket_id) {
         Connection connection = ConnectionSingleton.getConnection();
         try {
             String sql = "DELETE FROM ticket WHERE ticket_id = ?;";
