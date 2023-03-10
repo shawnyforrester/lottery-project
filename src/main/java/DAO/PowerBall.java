@@ -11,7 +11,7 @@ public class PowerBall {
     public String generateNumbers() {
 
 
-        String drawballs = "";
+        String drawballs = " ";
         // this for loop generates 5 random numbers between 1 and 69
         for (int i = 0; i <= 4; i++) {
             Integer draw = ThreadLocalRandom.current().nextInt(1, 69 + 1);

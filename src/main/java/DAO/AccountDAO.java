@@ -10,7 +10,7 @@ public class AccountDAO {
         public Account insertAccount(Account account) {
             Connection connection = ConnectionSingleton.getConnection();
             try {
-                String sql = "INSERT INTO account(username, password) values ( ?, ?)";
+                String sql = "INSERT INTO user_accounts (username, password) values ( ?, ?)";
                 PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
                 preparedStatement.setString(1, account.getUsername());
                 preparedStatement.setString(2, account.getPassword());
@@ -34,7 +34,7 @@ public class AccountDAO {
         Connection connection = ConnectionSingleton.getConnection();
         try {
             //Write SQL logic here.
-            String sql = "SELECT * FROM account WHERE username = ? AND password = ?";
+            String sql = "SELECT * FROM user_accounts WHERE username = ? AND password = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, account.getUsername());
             preparedStatement.setString(2, account.getPassword());
@@ -62,7 +62,7 @@ public class AccountDAO {
         Connection connection = ConnectionSingleton.getConnection();
         try {
 
-            String sql = "SELECT account_id, username, password FROM account WHERE account_id =(?)";
+            String sql = "SELECT account_id, username, password FROM user_accounts WHERE account_id =(?)";
             
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, account_id);
@@ -85,7 +85,7 @@ public class AccountDAO {
     public void deleteAccount(int account_id){
             Connection connection = ConnectionSingleton.getConnection();
         try {
-            String sql = "DELETE FROM UserAccounts WHERE account_id=?;";
+            String sql = "DELETE FROM user_accounts WHERE account_id=?;";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, account_id );
             preparedStatement.executeUpdate();

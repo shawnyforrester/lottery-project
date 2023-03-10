@@ -17,8 +17,13 @@ import io.javalin.http.Context;
  */
 public class PowerBallController {
 
-    private TicketService ticket = new TicketService();
-    private AccountService account = new AccountService();
+    TicketService ts;
+    AccountService as;
+
+    public PowerBallController(){
+        this.ts = new TicketService();
+        this.as = new AccountService();
+    }
 
 
     /**
@@ -31,9 +36,9 @@ public class PowerBallController {
         Javalin app = Javalin.create();
         app.post("/register", this::newUserHandler); //this endpoint handles new user registration
         app.post("/login", this::loginHandler);//handles login
-        app.get("/accounts/{account_id}/ ticket", this::getnewTicketByAccountId);
+        app.get("/accounts/{account_id}/ticket", this::getnewTicketByAccountId);
         app.delete("/accounts/{account_id}/delete-account", this:: deleteUserAccount);
-        app.delete("/account/ticket-id", this:: deleteTicketUsingId );
+        app.delete("/account/{ticket-id}", this:: deleteTicketUsingId );
         return app;
     }
     
@@ -44,8 +49,7 @@ public class PowerBallController {
     private void newUserHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        AccountService ac = new AccountService();
-        Account createdAccount = ac.AddAccount(account);
+        Account createdAccount = as.AddAccount(account);
         if (createdAccount == null) {
             ctx.status(400);
         } else {
@@ -58,8 +62,7 @@ public class PowerBallController {
     private void loginHandler(Context ctx) throws JsonProcessingException {
         ObjectMapper om = new ObjectMapper();
         Account account = om.readValue(ctx.body(), Account.class);
-        AccountService ac = new AccountService();
-        Account foundAccount = ac.NewUserLogin(account);
+        Account foundAccount = as.UserLogin(account);
         if (foundAccount != null) {
             ctx.json(om.writeValueAsString(foundAccount));
             ctx.status(200);
@@ -74,9 +77,9 @@ public class PowerBallController {
 
     public void getnewTicketByAccountId(Context ctx) throws JsonProcessingException {
         int account_id = Integer.parseInt(ctx.pathParam("account_id"));
-        TicketService ts = new TicketService();
         Ticket userTicket = ts.retrieveTicketbyId(account_id);
-        ctx.json(userTicket);
+        ObjectMapper om = new ObjectMapper();
+        ctx.json(om.writeValueAsString(userTicket));
     }
 
 
@@ -84,7 +87,7 @@ public class PowerBallController {
     * The deleted account should be returned in JSON format*/
     private void deleteUserAccount(Context ctx) throws JsonProcessingException {
         int account_id = Integer.parseInt(ctx.pathParam("account_id"));
-        AccountService as = new AccountService();
+
         Account accountForDeletion = as.deleteAccountById(account_id);
         if (accountForDeletion != null) {
             ctx.json(accountForDeletion);
@@ -97,12 +100,13 @@ public class PowerBallController {
     //modify method to delete a ticket from the database using the ticket_id;
     private void deleteTicketUsingId(Context ctx) throws JsonProcessingException {
         int ticket_id = Integer.parseInt(ctx.pathParam("ticket_id"));
-        TicketService ts = new TicketService();
+
         Ticket TicketForDeletion = ts.retrieveTicketbyId(ticket_id);
         if (TicketForDeletion != null) {
-            ctx.json(TicketForDeletion);
-        } else {
+            ts.deleteTicketById(ticket_id);
             ctx.status(200);
+        } else {
+            ctx.status(401);
         }
     }
 

@@ -68,7 +68,7 @@ public class Account {
      * @return username
      */
     public String getUsername() {
-        return username;
+        return this.username;
     }
     /**
      * Properly named getters and setters are necessary for Jackson ObjectMapper to work. You may use them as well.
@@ -82,7 +82,7 @@ public class Account {
      * @return password
      */
     public String getPassword() {
-        return password;
+        return this.password;
     }
     /**
      * Properly named getters and setters are necessary for Jackson ObjectMapper to work. You may use them as well.
